@@ -1,7 +1,10 @@
 package com.example.tictactoe;
 
+import android.app.usage.UsageEvents;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -11,6 +14,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private final List<int[]> combinationsList = new ArrayList<>();
+
     private int [] boxPostions = {0,0,0,0,0,0,0,0,0};
 
     private int playerTurn = 1;
@@ -22,10 +26,15 @@ public class MainActivity extends AppCompatActivity {
     private TextView playerOneName, playerTwoName;
 
     private ImageView image1,image2,image3,image4,image5,image6,image7,image8,image9;
+
+    private Button ExitButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ExitButton = findViewById(R.id.ExitBtn);
 
          playerOneName = findViewById(R.id.FirstPlayerName);
          playerTwoName = findViewById(R.id.SecondPlayerName);
@@ -33,14 +42,8 @@ public class MainActivity extends AppCompatActivity {
          playerOneLayout = findViewById(R.id.playerOneLayout);
          playerTwoLayout = findViewById(R.id.playerTwoLayout);
 
-         image1 = findViewById(R.id.image1);
-         image2 = findViewById(R.id.image2);
-         image3 = findViewById(R.id.image3);
-         image4 = findViewById(R.id.image4);
-         image5 = findViewById(R.id.image5);
-         image6 = findViewById(R.id.image6);
-         image7 = findViewById(R.id.image7);
-         image8 = findViewById(R.id.image8);
+         image1 = findViewById(R.id.image1);image2 = findViewById(R.id.image2);image3 = findViewById(R.id.image3);image4 = findViewById(R.id.image4);
+         image5 = findViewById(R.id.image5);image6 = findViewById(R.id.image6);image7 = findViewById(R.id.image7);image8 = findViewById(R.id.image8);
          image9 = findViewById(R.id.image9);
 
          combinationsList.add(new int[]{0,1,2});
@@ -58,6 +61,10 @@ public class MainActivity extends AppCompatActivity {
          playerOneName.setText(getPlayerOneName);
          playerTwoName.setText(getPlayertwoName);
 
+         ExitButton.setOnClickListener(e -> {
+             Intent intent = new Intent(MainActivity.this, AddPlayers.class);
+             startActivity(intent);
+         });
         image1.setOnClickListener(e ->{
             if(isBoxSelectable(0)){
                 performAction((ImageView)e, 0);
@@ -174,20 +181,14 @@ public class MainActivity extends AppCompatActivity {
     }
     public void restartMatch(){
         boxPostions = new int[]{0,0,0,0,0,0,0,0,0};
-
         playerTurn = 1;
-
         totalSelectedBoxes = 1;
 
-        image1.setImageResource(R.drawable.transparent);
-        image2.setImageResource(R.drawable.transparent);
-        image3.setImageResource(R.drawable.transparent);
-        image4.setImageResource(R.drawable.transparent);
-        image5.setImageResource(R.drawable.transparent);
-        image6.setImageResource(R.drawable.transparent);
-        image7.setImageResource(R.drawable.transparent);
-        image8.setImageResource(R.drawable.transparent);
-        image9.setImageResource(R.drawable.transparent);
+        setTransparent(image1);setTransparent(image2);setTransparent(image3);setTransparent(image4);
+        setTransparent(image5);setTransparent(image6);setTransparent(image7);setTransparent(image8);setTransparent(image9);
+    }
+    public void setTransparent(ImageView img){
+        img.setImageResource(R.drawable.transparent);
     }
 
 }
